@@ -1,0 +1,1874 @@
+[
+  {
+    "schedule_id": "SCH001",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 3, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [2, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 2, 3, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 3]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [2]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 3]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": []
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [2, 4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH002",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [2, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 3, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [2, 3]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 2, 3, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 3]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [2]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": []
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH003",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 2]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [3, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [2]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [3, 4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [2, 3]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 2]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1, 3, 4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH004",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 2, 3, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 3]
+      },
+      {
+        "row": "C",
+        "available_numbers": [2, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 2, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": []
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [2, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 3]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [3]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH005",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [3, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [2, 3, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [3, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 2]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [2, 3]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1, 2]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH006",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 2]
+      },
+      {
+        "row": "C",
+        "available_numbers": [2, 3]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 3, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [2, 3, 4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [3, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [2]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH007",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [2, 3, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 2, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 3, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [2, 3]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [3]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [2]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1, 4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH008",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [3]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 2]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 2, 3]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [2, 3]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 2, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [3, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH009",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 2, 3]
+      },
+      {
+        "row": "B",
+        "available_numbers": [2, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 2, 3, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 3]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": []
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [2, 3]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH010",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [2]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 3, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [2, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 2, 3, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 3, 4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [2]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 3]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": []
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH011",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 3, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 2]
+      },
+      {
+        "row": "C",
+        "available_numbers": [3]
+      },
+      {
+        "row": "D",
+        "available_numbers": [2, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [2]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [3, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 2, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1, 3]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH012",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 2, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [2, 3]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 3]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [3]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [2, 3]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [2, 4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH013",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [3]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [2]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 2, 4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [2, 3]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 3, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [2, 3]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH014",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 2, 3, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [2, 3, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 3]
+      },
+      {
+        "row": "D",
+        "available_numbers": [2, 3, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": []
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [2, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH015",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [2, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 2, 3]
+      },
+      {
+        "row": "C",
+        "available_numbers": [3, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 3]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 2]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [2, 3]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH016",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1]
+      },
+      {
+        "row": "B",
+        "available_numbers": [2]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [2, 3]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [2, 3, 4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 3, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [2, 3]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1, 4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH017",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [2, 3]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 3, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 2, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 2, 3, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [2]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [3]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": []
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH018",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [2, 3]
+      },
+      {
+        "row": "C",
+        "available_numbers": [2]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 3, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [2, 3]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 3, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [2]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH019",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 2, 3]
+      },
+      {
+        "row": "B",
+        "available_numbers": [4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 3]
+      },
+      {
+        "row": "D",
+        "available_numbers": [2, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 2, 3]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [2, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1, 3]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH020",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [3, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 2]
+      },
+      {
+        "row": "C",
+        "available_numbers": [4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 2]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [3, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 2, 3]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [2, 3, 4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH021",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 2, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [2, 3]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 3, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [2, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [3]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [2]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1, 3]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH022",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [2, 3]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 3, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [2, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 2, 3]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [2]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 3]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH023",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [2, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 2, 3, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [3]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [2, 3]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 3]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": []
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1, 2, 4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH024",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [3]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 2, 3]
+      },
+      {
+        "row": "C",
+        "available_numbers": [2, 3]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 2, 4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [2, 3]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH025",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [2, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 3]
+      },
+      {
+        "row": "D",
+        "available_numbers": [2, 3, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 3]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [2, 3]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [2, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH026",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 2, 3]
+      },
+      {
+        "row": "B",
+        "available_numbers": [3, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 2]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 2]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 2, 3]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [3, 4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH027",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 3]
+      },
+      {
+        "row": "B",
+        "available_numbers": [2]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 2, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [3, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [2, 4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 3, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [3]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1, 2]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH028",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [2, 3, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 3]
+      },
+      {
+        "row": "C",
+        "available_numbers": [2, 3]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [2, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [2, 3]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH029",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [2, 3, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 3]
+      },
+      {
+        "row": "D",
+        "available_numbers": [2]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [2, 3]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [2, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1, 3, 4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH030",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [3, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [2, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 3, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 2]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [2, 3]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 3]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [2]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH031",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 2]
+      },
+      {
+        "row": "B",
+        "available_numbers": [3]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 2, 3, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [2, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [3, 4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 2, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": []
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1, 3]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH032",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [2, 3, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 2]
+      },
+      {
+        "row": "C",
+        "available_numbers": [3]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 3]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [3, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 2, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [2, 4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH033",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 3]
+      },
+      {
+        "row": "B",
+        "available_numbers": [2, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 2]
+      },
+      {
+        "row": "D",
+        "available_numbers": [2, 3, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [2, 4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 3]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [3, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH034",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 3, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [2, 3, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 2, 3]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [2]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [2, 3, 4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH035",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 2, 3]
+      },
+      {
+        "row": "B",
+        "available_numbers": [2]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [2, 3]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 3, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [2, 3]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1, 4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH036",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [2, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 2, 3]
+      },
+      {
+        "row": "C",
+        "available_numbers": [3]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 3]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 2, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [2, 3]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH037",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 3, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 2]
+      },
+      {
+        "row": "D",
+        "available_numbers": [2, 3]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [2]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 2, 3]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [3, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1, 4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH038",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [2, 3]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 2, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [3, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 2, 3, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [3]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 2]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": []
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH039",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [2, 3]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 3, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [3]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [2, 3]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [2]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1, 2, 4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH040",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [3]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [2, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 2]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 2, 4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [2, 3]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 3]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [3, 4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH041",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 2, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [3]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 3]
+      },
+      {
+        "row": "D",
+        "available_numbers": [2, 3, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [3]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 2, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [2, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH042",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [2, 3]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 2, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 3]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [3]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 2, 3]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [2, 4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH043",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 3, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [2]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 2, 3]
+      },
+      {
+        "row": "D",
+        "available_numbers": [4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [2]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 3, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1, 2, 3]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH044",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 3, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [2, 3]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 2, 3]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 2, 3]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [2]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH045",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 2, 3]
+      },
+      {
+        "row": "B",
+        "available_numbers": [4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [2, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 2, 3]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [2, 3]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1, 3]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH046",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [2, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1, 2, 3]
+      },
+      {
+        "row": "C",
+        "available_numbers": [3]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 3, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1, 3]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 2, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [2]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH047",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [1, 3]
+      },
+      {
+        "row": "B",
+        "available_numbers": [2, 4]
+      },
+      {
+        "row": "C",
+        "available_numbers": [1, 2, 4]
+      },
+      {
+        "row": "D",
+        "available_numbers": [2]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [2, 4]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [1, 3]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [3]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [1, 3, 4]
+      }
+    ]
+  },
+  {
+    "schedule_id": "SCH048",
+    "available_seats": [
+      {
+        "row": "A",
+        "available_numbers": [2, 3, 4]
+      },
+      {
+        "row": "B",
+        "available_numbers": [1]
+      },
+      {
+        "row": "C",
+        "available_numbers": [2, 3]
+      },
+      {
+        "row": "D",
+        "available_numbers": [1, 3, 4]
+      }
+    ],
+    "occupied_seats": [
+      {
+        "row": "A",
+        "occupied_numbers": [1]
+      },
+      {
+        "row": "B",
+        "occupied_numbers": [2, 3, 4]
+      },
+      {
+        "row": "C",
+        "occupied_numbers": [1, 4]
+      },
+      {
+        "row": "D",
+        "occupied_numbers": [2]
+      }
+    ]
+  }
+]

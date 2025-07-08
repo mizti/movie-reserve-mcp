@@ -1,0 +1,386 @@
+[
+  {
+    "schedule_id": "SCH001",
+    "movie_id": "MOV001",
+    "date": "2025-07-11",
+    "start_time": "10:00",
+    "end_time": "11:47",
+    "theater_id": "THEATER_A"
+  },
+  {
+    "schedule_id": "SCH002",
+    "movie_id": "MOV001",
+    "date": "2025-07-11",
+    "start_time": "14:30",
+    "end_time": "16:17",
+    "theater_id": "THEATER_B"
+  },
+  {
+    "schedule_id": "SCH003",
+    "movie_id": "MOV001",
+    "date": "2025-07-11",
+    "start_time": "19:00",
+    "end_time": "20:47",
+    "theater_id": "THEATER_A"
+  },
+  {
+    "schedule_id": "SCH004",
+    "movie_id": "MOV002",
+    "date": "2025-07-11",
+    "start_time": "11:00",
+    "end_time": "12:57",
+    "theater_id": "THEATER_C"
+  },
+  {
+    "schedule_id": "SCH005",
+    "movie_id": "MOV002",
+    "date": "2025-07-11",
+    "start_time": "15:30",
+    "end_time": "17:27",
+    "theater_id": "THEATER_C"
+  },
+  {
+    "schedule_id": "SCH006",
+    "movie_id": "MOV002",
+    "date": "2025-07-11",
+    "start_time": "20:00",
+    "end_time": "21:57",
+    "theater_id": "THEATER_C"
+  },
+  {
+    "schedule_id": "SCH007",
+    "movie_id": "MOV003",
+    "date": "2025-07-11",
+    "start_time": "12:00",
+    "end_time": "14:02",
+    "theater_id": "THEATER_B"
+  },
+  {
+    "schedule_id": "SCH008",
+    "movie_id": "MOV003",
+    "date": "2025-07-11",
+    "start_time": "17:00",
+    "end_time": "19:02",
+    "theater_id": "THEATER_B"
+  },
+  {
+    "schedule_id": "SCH009",
+    "movie_id": "MOV004",
+    "date": "2025-07-11",
+    "start_time": "13:00",
+    "end_time": "14:46",
+    "theater_id": "THEATER_D"
+  },
+  {
+    "schedule_id": "SCH010",
+    "movie_id": "MOV004",
+    "date": "2025-07-11",
+    "start_time": "18:30",
+    "end_time": "20:16",
+    "theater_id": "THEATER_D"
+  },
+  {
+    "schedule_id": "SCH011",
+    "movie_id": "MOV001",
+    "date": "2025-07-12",
+    "start_time": "09:30",
+    "end_time": "11:17",
+    "theater_id": "THEATER_A"
+  },
+  {
+    "schedule_id": "SCH012",
+    "movie_id": "MOV001",
+    "date": "2025-07-12",
+    "start_time": "15:00",
+    "end_time": "16:47",
+    "theater_id": "THEATER_A"
+  },
+  {
+    "schedule_id": "SCH013",
+    "movie_id": "MOV001",
+    "date": "2025-07-12",
+    "start_time": "21:00",
+    "end_time": "22:47",
+    "theater_id": "THEATER_A"
+  },
+  {
+    "schedule_id": "SCH014",
+    "movie_id": "MOV002",
+    "date": "2025-07-12",
+    "start_time": "10:30",
+    "end_time": "12:27",
+    "theater_id": "THEATER_C"
+  },
+  {
+    "schedule_id": "SCH015",
+    "movie_id": "MOV002",
+    "date": "2025-07-12",
+    "start_time": "16:00",
+    "end_time": "17:57",
+    "theater_id": "THEATER_C"
+  },
+  {
+    "schedule_id": "SCH016",
+    "movie_id": "MOV002",
+    "date": "2025-07-12",
+    "start_time": "19:30",
+    "end_time": "21:27",
+    "theater_id": "THEATER_C"
+  },
+  {
+    "schedule_id": "SCH017",
+    "movie_id": "MOV005",
+    "date": "2025-07-12",
+    "start_time": "11:00",
+    "end_time": "13:00",
+    "theater_id": "THEATER_B"
+  },
+  {
+    "schedule_id": "SCH018",
+    "movie_id": "MOV005",
+    "date": "2025-07-12",
+    "start_time": "17:30",
+    "end_time": "19:30",
+    "theater_id": "THEATER_B"
+  },
+  {
+    "schedule_id": "SCH019",
+    "movie_id": "MOV006",
+    "date": "2025-07-12",
+    "start_time": "13:30",
+    "end_time": "15:31",
+    "theater_id": "THEATER_D"
+  },
+  {
+    "schedule_id": "SCH020",
+    "movie_id": "MOV006",
+    "date": "2025-07-12",
+    "start_time": "20:00",
+    "end_time": "22:01",
+    "theater_id": "THEATER_D"
+  },
+  {
+    "schedule_id": "SCH021",
+    "movie_id": "MOV003",
+    "date": "2025-07-13",
+    "start_time": "10:00",
+    "end_time": "12:02",
+    "theater_id": "THEATER_A"
+  },
+  {
+    "schedule_id": "SCH022",
+    "movie_id": "MOV003",
+    "date": "2025-07-13",
+    "start_time": "14:00",
+    "end_time": "16:02",
+    "theater_id": "THEATER_A"
+  },
+  {
+    "schedule_id": "SCH023",
+    "movie_id": "MOV003",
+    "date": "2025-07-13",
+    "start_time": "18:00",
+    "end_time": "20:02",
+    "theater_id": "THEATER_A"
+  },
+  {
+    "schedule_id": "SCH024",
+    "movie_id": "MOV004",
+    "date": "2025-07-13",
+    "start_time": "12:30",
+    "end_time": "14:16",
+    "theater_id": "THEATER_B"
+  },
+  {
+    "schedule_id": "SCH025",
+    "movie_id": "MOV004",
+    "date": "2025-07-13",
+    "start_time": "16:30",
+    "end_time": "18:16",
+    "theater_id": "THEATER_B"
+  },
+  {
+    "schedule_id": "SCH026",
+    "movie_id": "MOV007",
+    "date": "2025-07-13",
+    "start_time": "11:00",
+    "end_time": "13:05",
+    "theater_id": "THEATER_C"
+  },
+  {
+    "schedule_id": "SCH027",
+    "movie_id": "MOV007",
+    "date": "2025-07-13",
+    "start_time": "19:00",
+    "end_time": "21:05",
+    "theater_id": "THEATER_C"
+  },
+  {
+    "schedule_id": "SCH028",
+    "movie_id": "MOV008",
+    "date": "2025-07-13",
+    "start_time": "15:00",
+    "end_time": "16:36",
+    "theater_id": "THEATER_D"
+  },
+  {
+    "schedule_id": "SCH029",
+    "movie_id": "MOV008",
+    "date": "2025-07-13",
+    "start_time": "20:30",
+    "end_time": "22:06",
+    "theater_id": "THEATER_D"
+  },
+  {
+    "schedule_id": "SCH030",
+    "movie_id": "MOV001",
+    "date": "2025-07-14",
+    "start_time": "11:30",
+    "end_time": "13:17",
+    "theater_id": "THEATER_B"
+  },
+  {
+    "schedule_id": "SCH031",
+    "movie_id": "MOV001",
+    "date": "2025-07-14",
+    "start_time": "16:00",
+    "end_time": "17:47",
+    "theater_id": "THEATER_B"
+  },
+  {
+    "schedule_id": "SCH032",
+    "movie_id": "MOV002",
+    "date": "2025-07-14",
+    "start_time": "09:00",
+    "end_time": "10:57",
+    "theater_id": "THEATER_A"
+  },
+  {
+    "schedule_id": "SCH033",
+    "movie_id": "MOV002",
+    "date": "2025-07-14",
+    "start_time": "13:30",
+    "end_time": "15:27",
+    "theater_id": "THEATER_A"
+  },
+  {
+    "schedule_id": "SCH034",
+    "movie_id": "MOV002",
+    "date": "2025-07-14",
+    "start_time": "18:30",
+    "end_time": "20:27",
+    "theater_id": "THEATER_A"
+  },
+  {
+    "schedule_id": "SCH035",
+    "movie_id": "MOV005",
+    "date": "2025-07-14",
+    "start_time": "14:00",
+    "end_time": "16:00",
+    "theater_id": "THEATER_C"
+  },
+  {
+    "schedule_id": "SCH036",
+    "movie_id": "MOV005",
+    "date": "2025-07-14",
+    "start_time": "19:00",
+    "end_time": "21:00",
+    "theater_id": "THEATER_C"
+  },
+  {
+    "schedule_id": "SCH037",
+    "movie_id": "MOV006",
+    "date": "2025-07-14",
+    "start_time": "12:00",
+    "end_time": "14:01",
+    "theater_id": "THEATER_D"
+  },
+  {
+    "schedule_id": "SCH038",
+    "movie_id": "MOV007",
+    "date": "2025-07-14",
+    "start_time": "17:00",
+    "end_time": "19:05",
+    "theater_id": "THEATER_D"
+  },
+  {
+    "schedule_id": "SCH039",
+    "movie_id": "MOV003",
+    "date": "2025-07-15",
+    "start_time": "10:30",
+    "end_time": "12:32",
+    "theater_id": "THEATER_A"
+  },
+  {
+    "schedule_id": "SCH040",
+    "movie_id": "MOV003",
+    "date": "2025-07-15",
+    "start_time": "15:30",
+    "end_time": "17:32",
+    "theater_id": "THEATER_A"
+  },
+  {
+    "schedule_id": "SCH041",
+    "movie_id": "MOV003",
+    "date": "2025-07-15",
+    "start_time": "20:00",
+    "end_time": "22:02",
+    "theater_id": "THEATER_A"
+  },
+  {
+    "schedule_id": "SCH042",
+    "movie_id": "MOV004",
+    "date": "2025-07-15",
+    "start_time": "13:00",
+    "end_time": "14:46",
+    "theater_id": "THEATER_B"
+  },
+  {
+    "schedule_id": "SCH043",
+    "movie_id": "MOV004",
+    "date": "2025-07-15",
+    "start_time": "18:00",
+    "end_time": "19:46",
+    "theater_id": "THEATER_B"
+  },
+  {
+    "schedule_id": "SCH044",
+    "movie_id": "MOV008",
+    "date": "2025-07-15",
+    "start_time": "11:00",
+    "end_time": "12:36",
+    "theater_id": "THEATER_C"
+  },
+  {
+    "schedule_id": "SCH045",
+    "movie_id": "MOV008",
+    "date": "2025-07-15",
+    "start_time": "16:00",
+    "end_time": "17:36",
+    "theater_id": "THEATER_C"
+  },
+  {
+    "schedule_id": "SCH046",
+    "movie_id": "MOV008",
+    "date": "2025-07-15",
+    "start_time": "21:00",
+    "end_time": "22:36",
+    "theater_id": "THEATER_C"
+  },
+  {
+    "schedule_id": "SCH047",
+    "movie_id": "MOV007",
+    "date": "2025-07-15",
+    "start_time": "14:30",
+    "end_time": "16:35",
+    "theater_id": "THEATER_D"
+  },
+  {
+    "schedule_id": "SCH048",
+    "movie_id": "MOV007",
+    "date": "2025-07-15",
+    "start_time": "19:30",
+    "end_time": "21:35",
+    "theater_id": "THEATER_D"
+  }
+]
