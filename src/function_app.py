@@ -26,17 +26,21 @@ _DATE_PATTERN = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 
 
 class ToolProperty:
-    def __init__(self, property_name: str, property_type: str, description: str):
+    def __init__(self, property_name: str, property_type: str, description: str, items: dict = None):
         self.propertyName = property_name
         self.propertyType = property_type
         self.description = description
+        self.items = items
 
     def to_dict(self):
-        return {
+        result = {
             "propertyName": self.propertyName,
             "propertyType": self.propertyType,
             "description": self.description,
         }
+        if self.items is not None:
+            result["items"] = self.items
+        return result
 
 
 # Define the tool properties using the ToolProperty class
@@ -594,7 +598,7 @@ def save_reservation_data(reservation_data: dict) -> bool:
 # Define tool properties for reserve_seats
 tool_properties_reserve_seats = [
     ToolProperty("schedule_id", "string", "Schedule ID"),
-    ToolProperty("seat_ids", "array", "List of seat IDs to reserve"),
+    ToolProperty("seat_ids", "array", "List of seat IDs to reserve", items={"type": "string"}),
 ]
 tool_properties_reserve_seats_json = json.dumps([prop.to_dict() for prop in tool_properties_reserve_seats])
 
