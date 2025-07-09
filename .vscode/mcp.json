@@ -21,7 +21,7 @@
                 "x-functions-key": "${input:functions-mcp-extension-system-key}"
             }
         },*/
-        "local-mcp-function-handson1": {
+        "local-mcp-function-handson2": {
             "type": "sse",
             "url": "http://0.0.0.0:7071/runtime/webhooks/mcp/sse"
         }

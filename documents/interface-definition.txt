@@ -178,12 +178,8 @@
         "description": "Schedule ID"
       },
       "seat_ids": {
-        "type": "array",
-        "description": "List of seat IDs to reserve",
-        "items": {
-          "type": "string"
-        },
-        "minItems": 1
+        "type": "string",
+        "description": "Comma-separated list of seat IDs to reserve (e.g., 'A1,B2,D4')"
       }
     },
     "required": ["schedule_id", "seat_ids"]

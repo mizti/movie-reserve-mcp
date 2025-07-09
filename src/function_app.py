@@ -26,21 +26,17 @@ _DATE_PATTERN = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 
 
 class ToolProperty:
-    def __init__(self, property_name: str, property_type: str, description: str, items: dict = None):
+    def __init__(self, property_name: str, property_type: str, description: str):
         self.propertyName = property_name
         self.propertyType = property_type
         self.description = description
-        self.items = items
 
     def to_dict(self):
-        result = {
+        return {
             "propertyName": self.propertyName,
             "propertyType": self.propertyType,
             "description": self.description,
         }
-        if self.items is not None:
-            result["items"] = self.items
-        return result
 
 
 # Define the tool properties using the ToolProperty class
@@ -597,8 +593,8 @@ def save_reservation_data(reservation_data: dict) -> bool:
 
 # Define tool properties for reserve_seats
 tool_properties_reserve_seats = [
-    ToolProperty("schedule_id", "string", "Schedule ID"),
-    ToolProperty("seat_ids", "array", "List of seat IDs to reserve", items={"type": "string"}),
+    ToolProperty("schedule_id", "string", "Schedule ID for the screening session"),
+    ToolProperty("seat_ids", "string", "Comma-separated list of seat IDs to reserve (e.g., 'A1,B2,D4'). Each seat ID should be in format: row letter (A-Z) followed by seat number (1-9)"),
 ]
 tool_properties_reserve_seats_json = json.dumps([prop.to_dict() for prop in tool_properties_reserve_seats])
 
@@ -626,23 +622,32 @@ def reserve_seats(context) -> str:
         arguments = content.get("arguments", {})
         
         schedule_id = arguments.get("schedule_id")
-        seat_ids = arguments.get("seat_ids", [])
+        seat_ids_str = arguments.get("seat_ids", "")
         
         # Validate required parameters
         if not schedule_id:
             return json.dumps({"error": "schedule_id is required."})
         
-        if not seat_ids:
+        if not seat_ids_str:
             return json.dumps({"error": "seat_ids is required."})
         
-        # Validate string lengths and formats
+        # Validate string lengths
         if len(schedule_id) > 20:
             return json.dumps({"error": "Schedule ID too long. Maximum 20 characters."})
+        
+        if len(seat_ids_str) > 100:
+            return json.dumps({"error": "Seat IDs string too long. Maximum 100 characters."})
+        
+        # Parse comma-separated seat IDs
+        seat_ids = [seat_id.strip() for seat_id in seat_ids_str.split(",") if seat_id.strip()]
+        
+        if not seat_ids:
+            return json.dumps({"error": "No valid seat IDs provided."})
         
         # Validate seat ID formats
         for seat_id in seat_ids:
             if not validate_seat_id_format(seat_id):
-                return json.dumps({"error": f"Invalid seat ID format: {seat_id}."})
+                return json.dumps({"error": f"Invalid seat ID format: {seat_id}. Use format like 'A1', 'B2', etc."})
         
         # Get schedule information
         schedule = get_schedule_by_id(schedule_id)
@@ -673,7 +678,7 @@ def reserve_seats(context) -> str:
         
         # Update seat availability (Transaction start)
         if not update_seat_availability(schedule_id, seat_ids):
-            return json.dumps({"error": "Failed to save reservation data."})
+            return json.dumps({"error": "Failed to update seat availability."})
         
         # Save reservation data
         if not save_reservation_data(reservation_data):
@@ -697,7 +702,7 @@ def reserve_seats(context) -> str:
                 "end_time": schedule["end_time"],
                 "theater_id": schedule["theater_id"]
             },
-            "message": f"Successfully reserved {len(seat_ids)} seat(s)."
+            "message": f"Successfully reserved {len(seat_ids)} seat(s): {', '.join(seat_ids)}."
         }
         
         return json.dumps(response, ensure_ascii=False)
