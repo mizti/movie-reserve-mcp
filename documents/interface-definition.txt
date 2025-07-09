@@ -60,7 +60,7 @@
 
 **ツール名**: `get_show_schedule`
 
-**説明**: 指定した映画の上映スケジュールを取得する。空席有無も併せて返却。
+**説明**: 指定した日の上映スケジュールを取得する。映画をIDやタイトルによって絞り込みも可能。空席有無も併せて返却。
 
 **JSON-RPC仕様**:
 ```json
@@ -84,7 +84,7 @@
         "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
       }
     },
-    "required": ["movie_id", "date"]
+    "required": ["date"]
   }
 }
 ```
@@ -122,22 +122,12 @@
   "inputSchema": {
     "type": "object",
     "properties": {
-      "movie_title": {
+      "schedule_id": {
         "type": "string",
-        "description": "Movie title (can be used as alternative to schedule_id)"
-      },
-      "date": {
-        "type": "string",
-        "description": "Screening date in YYYY-MM-DD format",
-        "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
-      },
-      "start_time": {
-        "type": "string",
-        "description": "Start time in HH:MM format",
-        "pattern": "^\\d{2}:\\d{2}$"
+        "description": "Schedule ID you want to get the list of available seats"
       }
     },
-    "required": []
+    "required": ["schedule_id"]
   }
 }
 ```
@@ -196,7 +186,7 @@
         "minItems": 1
       }
     },
-    "required": ["seat_ids"]
+    "required": ["schedule_id", "seat_ids"]
   }
 }
 ```
@@ -269,8 +259,7 @@
     {
       "seat_id": "string",
       "row": "string",
-      "number": "number",
-      "seat_type": "string"
+      "number": "number"
     }
   ]
 }
