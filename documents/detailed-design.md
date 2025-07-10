@@ -5,26 +5,29 @@
 各機能の処理フロー、データアクセス方法、バリデーション、エラーハンドリングを定義する。
 
 ## 2. 前提条件
-- データソース: src/data配下のJSONファイル
-- 予約データ保存: src/data/reservations.jsonl（JSON Lines形式）
+- データソース: Azure Filesのmovie-agent-data配下のJSONファイル
+- 予約データ保存: Azure Filesのmovie-agent-data/reservations.jsonl（JSON Lines形式）
 - リクエストパラメータには最低限のバリデーションを実装
 - エラー時は適切なエラーメッセージと共にHTTP相当のステータスを返却
 
 ## 3. 共通仕様
 
-### 3.1 データファイル
+### 3.1 起動時処理
+- src/data配下のjsonファイル群をAzure Filesのmovie-agent-dataファイル共有にアップロードする（既存ファイルがある場合は上書きする）
+
+### 3.2 データファイル
 - movies.json: 映画マスタデータ
 - schedules.json: 上映スケジュールデータ
 - seat_availability.json: 座席状況データ
 - reservations.jsonl: 予約データ（追記形式）
 
-### 3.2 共通バリデーション
+### 3.3 共通バリデーション
 - 日付形式: YYYY-MM-DD（正規表現: ^\d{4}-\d{2}-\d{2}$）
 - 時刻形式: HH:MM（正規表現: ^\d{2}:\d{2}$）
 - 必須パラメータの存在チェック
 - 文字列長制限チェック
 
-### 3.3 エラーハンドリング
+### 3.4 エラーハンドリング
 - データファイル読み込みエラー
 - パラメータバリデーションエラー
 - データ不整合エラー
@@ -44,12 +47,12 @@
    - genre: 文字列長チェック（最大50文字）
 
 2. **データ読み込み**
-   - src/data/movies.json を読み込み
+   - movie-agent-data/movies.json を読み込み
    - ファイル存在・フォーマットチェック
 
 3. **データフィルタリング**
    - dateパラメータが指定されている場合:
-     - src/data/schedules.json を読み込み
+     - movie-agent-data/schedules.json を読み込み
      - 指定日に上映スケジュールが存在する映画のみ抽出
    - search_queryが指定されている場合:
      - 映画タイトルの部分一致検索（大文字小文字区別なし）
@@ -79,15 +82,15 @@
 
 2. **映画IDの解決**
    - movie_titleが指定されている場合:
-     - src/data/movies.json から該当映画を検索
+     - movie-agent-data/movies.json から該当映画を検索
      - movie_idを特定
 
 3. **スケジュールデータ読み込み**
-   - src/data/schedules.json を読み込み
+   - movie-agent-data/schedules.json を読み込み
    - date（およびmovie_idが絞り込まれている場合のみmovie_idとも）一致するスケジュールを抽出
 
 4. **座席状況サマリー計算**
-   - src/data/seat_availability.json を読み込み
+   - movie-agent-data/seat_availability.json を読み込み
    - 各スケジュールIDについて:
      - available_seatsの総数を計算
      - occupied_seatsの総数を計算
@@ -112,15 +115,15 @@
    - schedule_id: 必須、文字列長チェック（最大20文字）
 
 2. **スケジュール存在確認**
-   - src/data/schedules.json でschedule_idの存在確認
+   - movie-agent-data/schedules.json でschedule_idの存在確認
    - 存在しない場合はエラー
 
 3. **映画情報取得**
    - スケジュールデータからmovie_idを取得
-   - src/data/movies.json からmovie_idに対応する映画情報を取得
+   - movie-agent-data/movies.json からmovie_idに対応する映画情報を取得
 
 4. **座席状況データ読み込み**
-   - src/data/seat_availability.json からschedule_idに対応するデータを取得
+   - movie-agent-data/seat_availability.json からschedule_idに対応するデータを取得
 
 5. **レスポンス生成**
    - schedule_info, available_seats, occupied_seatsを統合
@@ -143,11 +146,11 @@
    - カンマ区切り文字列をパース後、各座席ID形式チェック: ^[A-Z]\d+$
 
 2. **スケジュール存在確認**
-   - src/data/schedules.json でschedule_idの存在確認
+   - movie-agent-data/schedules.json でschedule_idの存在確認
    - 対応する映画情報も同時に取得
 
 3. **座席空き状況確認**
-   - src/data/seat_availability.json から現在の座席状況を読み込み
+   - movie-agent-data/seat_availability.json から現在の座席状況を読み込み
    - 指定された全座席が利用可能かチェック
 
 4. **予約データ生成**
@@ -157,10 +160,10 @@
 
 5. **座席状況更新**
    - 予約対象座席をavailable_seatsからoccupied_seatsに移動
-   - src/data/seat_availability.json を更新
+   - movie-agent-data/seat_availability.json を更新
 
 6. **予約データ保存**
-   - 予約データをsrc/data/reservations.jsonl に追記
+   - 予約データをmovie-agent-data/reservations.jsonl に追記
    - JSON Lines形式（1行1予約）
 
 7. **レスポンス生成**
@@ -186,12 +189,12 @@
    - reservation_id: 必須、文字列長チェック（最大30文字）
 
 2. **予約データ検索**
-   - src/data/reservations.jsonl を読み込み
+   - movie-agent-data/reservations.jsonl を読み込み
    - reservation_idに一致する予約を検索
 
 3. **関連データ取得**
-   - スケジュール情報: src/data/schedules.json
-   - 映画情報: src/data/movies.json
+   - スケジュール情報: movie-agent-data/schedules.json
+   - 映画情報: movie-agent-data/movies.json
 
 4. **座席詳細情報生成**
    - 座席IDを行と番号に分解
@@ -235,7 +238,7 @@
 - 過度に長い文字列の制限
 
 ### 7.2 ファイルアクセス制御
-- src/data配下のみアクセス許可
+- src/dataおよびAzure Filesのmovie-agent-data配下のみアクセス許可
 - 設定ファイルや実行ファイルへのアクセス禁止
 
 ## 8. ログ・監査
