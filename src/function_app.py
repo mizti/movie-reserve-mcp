@@ -14,15 +14,15 @@ _SNIPPET_NAME_PROPERTY_NAME = "snippetname"
 _SNIPPET_PROPERTY_NAME = "snippet"
 _BLOB_PATH = "snippets/{mcptoolargs." + _SNIPPET_NAME_PROPERTY_NAME + "}.json"
 
-# Constants for movie theater data
-_DATA_PATH = os.path.join(os.path.dirname(__file__), "data")
-_MOVIES_JSON = os.path.join(_DATA_PATH, "movies.json")
-_SCHEDULES_JSON = os.path.join(_DATA_PATH, "schedules.json")
-_SEAT_AVAILABILITY_JSON = os.path.join(_DATA_PATH, "seat_availability.json")
-_RESERVATIONS_JSONL = os.path.join(_DATA_PATH, "reservations.jsonl")
+# Constants for movie theater data in Azure Blob Storage
+_MOVIES_BLOB_PATH = "movies/movies.json"
+_SCHEDULES_BLOB_PATH = "movies/schedules.json"
+_SEAT_AVAILABILITY_BLOB_PATH = "movies/seat_availability.json"
+_RESERVATIONS_BLOB_PATH = "movies/reservations.jsonl"
 
 # Common validation patterns
 _DATE_PATTERN = re.compile(r'^\d{4}-\d{2}-\d{2}$')
+_SEAT_ID_PATTERN = re.compile(r'^[A-Z]\d+$')
 
 
 class ToolProperty:
@@ -119,14 +119,38 @@ def save_snippet(file: func.Out[str], context) -> str:
     return f"Snippet '{snippet_content_from_args}' saved successfully"
 
 
-# Utility functions for movie theater operations
-def load_json_file(file_path: str) -> List[Dict[str, Any]]:
-    """Load JSON data from file."""
+# Utility functions for blob storage operations
+def load_json_from_blob(blob_stream: func.InputStream) -> List[Dict[str, Any]]:
+    """Load JSON data from blob stream."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as file:
-            return json.load(file)
-    except (FileNotFoundError, json.JSONDecodeError) as e:
-        logging.error(f"Failed to load JSON file {file_path}: {e}")
+        content = blob_stream.read().decode('utf-8')
+        return json.loads(content)
+    except (json.JSONDecodeError, UnicodeDecodeError) as e:
+        logging.error(f"Failed to load JSON from blob: {e}")
+        raise
+
+
+def save_json_to_blob(data: List[Dict[str, Any]], blob_output: func.Out[str]) -> None:
+    """Save JSON data to blob output."""
+    try:
+        content = json.dumps(data, ensure_ascii=False, indent=2)
+        blob_output.set(content)
+    except Exception as e:
+        logging.error(f"Failed to save JSON to blob: {e}")
+        raise
+
+
+def load_jsonl_from_blob(blob_stream: func.InputStream) -> List[Dict[str, Any]]:
+    """Load JSONL data from blob stream."""
+    try:
+        content = blob_stream.read().decode('utf-8')
+        reservations = []
+        for line in content.strip().split('\n'):
+            if line.strip():
+                reservations.append(json.loads(line.strip()))
+        return reservations
+    except (json.JSONDecodeError, UnicodeDecodeError) as e:
+        logging.error(f"Failed to load JSONL from blob: {e}")
         raise
 
 
@@ -135,15 +159,16 @@ def validate_date_format(date_str: str) -> bool:
     return bool(_DATE_PATTERN.match(date_str))
 
 
-def get_movies_for_date(date_str: str) -> List[str]:
-    """Get movie IDs that have schedules for the specified date."""
-    try:
-        schedules = load_json_file(_SCHEDULES_JSON)
-        movie_ids = {schedule["movie_id"] for schedule in schedules if schedule["date"] == date_str}
-        return list(movie_ids)
-    except Exception as e:
-        logging.error(f"Failed to get movies for date {date_str}: {e}")
-        return []
+def validate_seat_id_format(seat_id: str) -> bool:
+    """Validate seat ID format (e.g., A1, B2)."""
+    return bool(_SEAT_ID_PATTERN.match(seat_id))
+
+
+def generate_reservation_id() -> str:
+    """Generate unique reservation ID."""
+    from datetime import datetime
+    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    return f"RES{timestamp}"
 
 
 # Define tool properties for movie theater operations
@@ -162,11 +187,15 @@ tool_properties_get_movie_list_json = json.dumps([prop.to_dict() for prop in too
     description="Get a list of currently showing movies. Supports filtering by date and partial search by movie title.",
     toolProperties=tool_properties_get_movie_list_json,
 )
-def get_movie_list(context) -> str:
+@app.generic_input_binding(arg_name="movies_file", type="blob", connection="AzureWebJobsStorage", path=_MOVIES_BLOB_PATH)
+@app.generic_input_binding(arg_name="schedules_file", type="blob", connection="AzureWebJobsStorage", path=_SCHEDULES_BLOB_PATH)
+def get_movie_list(movies_file: func.InputStream, schedules_file: func.InputStream, context) -> str:
     """
     Get a list of currently showing movies with optional filtering.
 
     Args:
+        movies_file: The movies blob input stream.
+        schedules_file: The schedules blob input stream.
         context: The trigger context containing the input arguments.
 
     Returns:
@@ -194,14 +223,18 @@ def get_movie_list(context) -> str:
         
         # Load movie data
         try:
-            movies = load_json_file(_MOVIES_JSON)
+            movies = load_json_from_blob(movies_file)
         except Exception as e:
             return json.dumps({"error": "Failed to load movie data."})
         
         # Filter movies based on date if specified
         if date_filter:
-            valid_movie_ids = get_movies_for_date(date_filter)
-            movies = [movie for movie in movies if movie["movie_id"] in valid_movie_ids]
+            try:
+                schedules = load_json_from_blob(schedules_file)
+                valid_movie_ids = {schedule["movie_id"] for schedule in schedules if schedule["date"] == date_filter}
+                movies = [movie for movie in movies if movie["movie_id"] in valid_movie_ids]
+            except Exception as e:
+                return json.dumps({"error": "Failed to load schedule data."})
         
         # Filter by search query if specified
         if search_query:
@@ -221,34 +254,6 @@ def get_movie_list(context) -> str:
         return json.dumps({"error": "Internal server error."})
 
 
-def get_movie_id_by_title(title: str) -> str:
-    """Get movie ID by title."""
-    try:
-        movies = load_json_file(_MOVIES_JSON)
-        for movie in movies:
-            if movie["title"] == title:
-                return movie["movie_id"]
-        return None
-    except Exception as e:
-        logging.error(f"Failed to get movie ID by title {title}: {e}")
-        return None
-
-
-def calculate_seat_summary(schedule_id: str) -> tuple:
-    """Calculate available and total seat counts for a schedule."""
-    try:
-        seat_data = load_json_file(_SEAT_AVAILABILITY_JSON)
-        for seat_info in seat_data:
-            if seat_info["schedule_id"] == schedule_id:
-                available_count = sum(len(row["available_numbers"]) for row in seat_info["available_seats"])
-                occupied_count = sum(len(row["occupied_numbers"]) for row in seat_info["occupied_seats"])
-                return available_count, available_count + occupied_count
-        return 0, 0
-    except Exception as e:
-        logging.error(f"Failed to calculate seat summary for schedule {schedule_id}: {e}")
-        return 0, 0
-
-
 # Define tool properties for get_show_schedule
 tool_properties_get_show_schedule = [
     ToolProperty("movie_id", "string", "Movie ID"),
@@ -265,11 +270,17 @@ tool_properties_get_show_schedule_json = json.dumps([prop.to_dict() for prop in 
     description="Get screening schedule for a specified movie. Also returns seat availability information.",
     toolProperties=tool_properties_get_show_schedule_json,
 )
-def get_show_schedule(context) -> str:
+@app.generic_input_binding(arg_name="movies_file", type="blob", connection="AzureWebJobsStorage", path=_MOVIES_BLOB_PATH)
+@app.generic_input_binding(arg_name="schedules_file", type="blob", connection="AzureWebJobsStorage", path=_SCHEDULES_BLOB_PATH)
+@app.generic_input_binding(arg_name="seat_file", type="blob", connection="AzureWebJobsStorage", path=_SEAT_AVAILABILITY_BLOB_PATH)
+def get_show_schedule(movies_file: func.InputStream, schedules_file: func.InputStream, seat_file: func.InputStream, context) -> str:
     """
     Get screening schedule for a specified date with optional movie filtering.
 
     Args:
+        movies_file: The movies blob input stream.
+        schedules_file: The schedules blob input stream.
+        seat_file: The seat availability blob input stream.
         context: The trigger context containing the input arguments.
 
     Returns:
@@ -299,15 +310,25 @@ def get_show_schedule(context) -> str:
         if movie_title and len(movie_title) > 100:
             return json.dumps({"error": "Movie title too long. Maximum 100 characters."})
         
+        # Load movie data
+        try:
+            movies = load_json_from_blob(movies_file)
+            movie_dict = {movie["movie_id"]: movie["title"] for movie in movies}
+        except Exception as e:
+            return json.dumps({"error": "Failed to load movie data."})
+        
         # Resolve movie ID from title if needed
         if movie_title and not movie_id:
-            movie_id = get_movie_id_by_title(movie_title)
+            for movie in movies:
+                if movie["title"] == movie_title:
+                    movie_id = movie["movie_id"]
+                    break
             if not movie_id:
                 return json.dumps({"error": "Movie not found."})
         
         # Load schedule data
         try:
-            schedules = load_json_file(_SCHEDULES_JSON)
+            schedules = load_json_from_blob(schedules_file)
         except Exception as e:
             return json.dumps({"error": "Failed to load schedule data."})
         
@@ -318,17 +339,25 @@ def get_show_schedule(context) -> str:
                 if not movie_id or schedule["movie_id"] == movie_id:
                     filtered_schedules.append(schedule)
         
-        # Load movie data to get movie titles
+        # Load seat availability data
         try:
-            movies = load_json_file(_MOVIES_JSON)
-            movie_dict = {movie["movie_id"]: movie["title"] for movie in movies}
+            seat_data = load_json_from_blob(seat_file)
         except Exception as e:
-            return json.dumps({"error": "Failed to load movie data."})
+            return json.dumps({"error": "Failed to load seat availability data."})
         
         # Enhance schedules with movie titles and seat availability
         enhanced_schedules = []
         for schedule in filtered_schedules:
-            available_count, total_count = calculate_seat_summary(schedule["schedule_id"])
+            # Calculate seat availability
+            available_count = 0
+            total_count = 0
+            
+            for seat_info in seat_data:
+                if seat_info["schedule_id"] == schedule["schedule_id"]:
+                    available_count = sum(len(row["available_numbers"]) for row in seat_info["available_seats"])
+                    occupied_count = sum(len(row["occupied_numbers"]) for row in seat_info["occupied_seats"])
+                    total_count = available_count + occupied_count
+                    break
             
             enhanced_schedule = {
                 "schedule_id": schedule["schedule_id"],
@@ -355,45 +384,6 @@ def get_show_schedule(context) -> str:
         return json.dumps({"error": "Internal server error."})
 
 
-def get_schedule_by_id(schedule_id: str) -> dict:
-    """Get schedule information by schedule ID."""
-    try:
-        schedules = load_json_file(_SCHEDULES_JSON)
-        for schedule in schedules:
-            if schedule["schedule_id"] == schedule_id:
-                return schedule
-        return None
-    except Exception as e:
-        logging.error(f"Failed to get schedule by ID {schedule_id}: {e}")
-        return None
-
-
-def get_seat_availability_by_schedule_id(schedule_id: str) -> dict:
-    """Get seat availability data by schedule ID."""
-    try:
-        seat_data = load_json_file(_SEAT_AVAILABILITY_JSON)
-        for seat_info in seat_data:
-            if seat_info["schedule_id"] == schedule_id:
-                return seat_info
-        return None
-    except Exception as e:
-        logging.error(f"Failed to get seat availability by schedule ID {schedule_id}: {e}")
-        return None
-
-
-def get_movie_by_id(movie_id: str) -> dict:
-    """Get movie information by movie ID."""
-    try:
-        movies = load_json_file(_MOVIES_JSON)
-        for movie in movies:
-            if movie["movie_id"] == movie_id:
-                return movie
-        return None
-    except Exception as e:
-        logging.error(f"Failed to get movie by ID {movie_id}: {e}")
-        return None
-
-
 # Define tool properties for get_seat_availability
 tool_properties_get_seat_availability = [
     ToolProperty("schedule_id", "string", "Schedule ID you want to get the list of available seats"),
@@ -408,11 +398,17 @@ tool_properties_get_seat_availability_json = json.dumps([prop.to_dict() for prop
     description="Get detailed seat availability for a specified screening session.",
     toolProperties=tool_properties_get_seat_availability_json,
 )
-def get_seat_availability(context) -> str:
+@app.generic_input_binding(arg_name="movies_file", type="blob", connection="AzureWebJobsStorage", path=_MOVIES_BLOB_PATH)
+@app.generic_input_binding(arg_name="schedules_file", type="blob", connection="AzureWebJobsStorage", path=_SCHEDULES_BLOB_PATH)
+@app.generic_input_binding(arg_name="seat_file", type="blob", connection="AzureWebJobsStorage", path=_SEAT_AVAILABILITY_BLOB_PATH)
+def get_seat_availability(movies_file: func.InputStream, schedules_file: func.InputStream, seat_file: func.InputStream, context) -> str:
     """
     Get detailed seat availability for a specified screening session.
 
     Args:
+        movies_file: The movies blob input stream.
+        schedules_file: The schedules blob input stream.
+        seat_file: The seat availability blob input stream.
         context: The trigger context containing the input arguments.
 
     Returns:
@@ -433,28 +429,61 @@ def get_seat_availability(context) -> str:
         if len(schedule_id) > 20:
             return json.dumps({"error": "Schedule ID too long. Maximum 20 characters."})
         
-        # Get schedule information
-        schedule = get_schedule_by_id(schedule_id)
+        # Load schedule data
+        try:
+            schedules = load_json_from_blob(schedules_file)
+        except Exception as e:
+            return json.dumps({"error": "Failed to load schedule data."})
+        
+        # Find the schedule
+        schedule = None
+        for s in schedules:
+            if s["schedule_id"] == schedule_id:
+                schedule = s
+                break
+        
         if not schedule:
             return json.dumps({"error": "Schedule not found."})
         
-        # Get movie information
-        movie = get_movie_by_id(schedule["movie_id"])
+        # Load movie data
+        try:
+            movies = load_json_from_blob(movies_file)
+        except Exception as e:
+            return json.dumps({"error": "Failed to load movie data."})
+        
+        # Find the movie
+        movie = None
+        for m in movies:
+            if m["movie_id"] == schedule["movie_id"]:
+                movie = m
+                break
+        
         if not movie:
             return json.dumps({"error": "Movie not found."})
         
-        # Get seat availability data
-        seat_data = get_seat_availability_by_schedule_id(schedule_id)
-        if not seat_data:
+        # Load seat availability data
+        try:
+            seat_data = load_json_from_blob(seat_file)
+        except Exception as e:
+            return json.dumps({"error": "Failed to load seat availability data."})
+        
+        # Find seat data for this schedule
+        seat_info = None
+        for s in seat_data:
+            if s["schedule_id"] == schedule_id:
+                seat_info = s
+                break
+        
+        if not seat_info:
             return json.dumps({"error": "Seat data not available."})
         
         # Sort available seats by row (alphabetically) and seat numbers (ascending)
-        available_seats = sorted(seat_data["available_seats"], key=lambda x: x["row"])
+        available_seats = sorted(seat_info["available_seats"], key=lambda x: x["row"])
         for row in available_seats:
             row["available_numbers"] = sorted(row["available_numbers"])
         
         # Sort occupied seats by row (alphabetically) and seat numbers (ascending)
-        occupied_seats = sorted(seat_data["occupied_seats"], key=lambda x: x["row"])
+        occupied_seats = sorted(seat_info["occupied_seats"], key=lambda x: x["row"])
         for row in occupied_seats:
             row["occupied_numbers"] = sorted(row["occupied_numbers"])
         
@@ -480,117 +509,6 @@ def get_seat_availability(context) -> str:
         return json.dumps({"error": "Internal server error."})
 
 
-# Common validation patterns for seat reservation
-_SEAT_ID_PATTERN = re.compile(r'^[A-Z]\d+$')
-
-
-def validate_seat_id_format(seat_id: str) -> bool:
-    """Validate seat ID format (e.g., A1, B2)."""
-    return bool(_SEAT_ID_PATTERN.match(seat_id))
-
-
-def generate_reservation_id() -> str:
-    """Generate unique reservation ID."""
-    from datetime import datetime
-    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-    # Add a simple counter if needed (simplified for this implementation)
-    return f"RES{timestamp}"
-
-
-def check_seat_availability(schedule_id: str, seat_ids: List[str]) -> tuple:
-    """Check if all specified seats are available for reservation."""
-    try:
-        seat_data = get_seat_availability_by_schedule_id(schedule_id)
-        if not seat_data:
-            return False, "Seat data not available."
-        
-        # Create a set of all available seats
-        available_seats = set()
-        for row in seat_data["available_seats"]:
-            for seat_num in row["available_numbers"]:
-                available_seats.add(f"{row['row']}{seat_num}")
-        
-        # Check if all requested seats are available
-        for seat_id in seat_ids:
-            if seat_id not in available_seats:
-                return False, f"Seat {seat_id} is already occupied."
-        
-        return True, ""
-    except Exception as e:
-        logging.error(f"Failed to check seat availability: {e}")
-        return False, "Failed to check seat availability."
-
-
-def update_seat_availability(schedule_id: str, seat_ids: List[str]) -> bool:
-    """Update seat availability by moving reserved seats from available to occupied."""
-    try:
-        # Load current seat data
-        seat_data_list = load_json_file(_SEAT_AVAILABILITY_JSON)
-        
-        # Find the relevant schedule
-        schedule_index = -1
-        for i, seat_info in enumerate(seat_data_list):
-            if seat_info["schedule_id"] == schedule_id:
-                schedule_index = i
-                break
-        
-        if schedule_index == -1:
-            return False
-        
-        seat_info = seat_data_list[schedule_index]
-        
-        # Convert seat_ids to row and number mapping
-        seats_to_move = {}
-        for seat_id in seat_ids:
-            row = seat_id[0]
-            number = int(seat_id[1:])
-            if row not in seats_to_move:
-                seats_to_move[row] = []
-            seats_to_move[row].append(number)
-        
-        # Update available_seats and occupied_seats
-        for row_data in seat_info["available_seats"]:
-            row = row_data["row"]
-            if row in seats_to_move:
-                # Remove seats from available
-                row_data["available_numbers"] = [
-                    num for num in row_data["available_numbers"] 
-                    if num not in seats_to_move[row]
-                ]
-        
-        for row_data in seat_info["occupied_seats"]:
-            row = row_data["row"]
-            if row in seats_to_move:
-                # Add seats to occupied
-                row_data["occupied_numbers"].extend(seats_to_move[row])
-                row_data["occupied_numbers"] = sorted(row_data["occupied_numbers"])
-        
-        # Save updated data
-        with open(_SEAT_AVAILABILITY_JSON, 'w', encoding='utf-8') as f:
-            json.dump(seat_data_list, f, ensure_ascii=False, indent=2)
-        
-        return True
-    except Exception as e:
-        logging.error(f"Failed to update seat availability: {e}")
-        return False
-
-
-def save_reservation_data(reservation_data: dict) -> bool:
-    """Save reservation data to JSONL file."""
-    try:
-        # Ensure the directory exists
-        os.makedirs(os.path.dirname(_RESERVATIONS_JSONL), exist_ok=True)
-        
-        # Append to JSONL file
-        with open(_RESERVATIONS_JSONL, 'a', encoding='utf-8') as f:
-            f.write(json.dumps(reservation_data, ensure_ascii=False) + '\n')
-        
-        return True
-    except Exception as e:
-        logging.error(f"Failed to save reservation data: {e}")
-        return False
-
-
 # Define tool properties for reserve_seats
 tool_properties_reserve_seats = [
     ToolProperty("schedule_id", "string", "Schedule ID for the screening session"),
@@ -606,11 +524,24 @@ tool_properties_reserve_seats_json = json.dumps([prop.to_dict() for prop in tool
     description="Reserve specified seats. Supports multiple seat reservations simultaneously.",
     toolProperties=tool_properties_reserve_seats_json,
 )
-def reserve_seats(context) -> str:
+@app.generic_input_binding(arg_name="movies_file", type="blob", connection="AzureWebJobsStorage", path=_MOVIES_BLOB_PATH)
+@app.generic_input_binding(arg_name="schedules_file", type="blob", connection="AzureWebJobsStorage", path=_SCHEDULES_BLOB_PATH)
+@app.generic_input_binding(arg_name="seat_file", type="blob", connection="AzureWebJobsStorage", path=_SEAT_AVAILABILITY_BLOB_PATH)
+@app.generic_input_binding(arg_name="reservations_file", type="blob", connection="AzureWebJobsStorage", path=_RESERVATIONS_BLOB_PATH)
+@app.generic_output_binding(arg_name="seat_output", type="blob", connection="AzureWebJobsStorage", path=_SEAT_AVAILABILITY_BLOB_PATH)
+@app.generic_output_binding(arg_name="reservation_output", type="blob", connection="AzureWebJobsStorage", path=_RESERVATIONS_BLOB_PATH)
+def reserve_seats(movies_file: func.InputStream, schedules_file: func.InputStream, seat_file: func.InputStream, 
+                  reservations_file: func.InputStream, seat_output: func.Out[str], reservation_output: func.Out[str], context) -> str:
     """
     Reserve specified seats for a screening session.
 
     Args:
+        movies_file: The movies blob input stream.
+        schedules_file: The schedules blob input stream.
+        seat_file: The seat availability blob input stream.
+        reservations_file: The existing reservations blob input stream.
+        seat_output: The seat availability blob output stream.
+        reservation_output: The reservation blob output stream.
         context: The trigger context containing the input arguments.
 
     Returns:
@@ -649,20 +580,92 @@ def reserve_seats(context) -> str:
             if not validate_seat_id_format(seat_id):
                 return json.dumps({"error": f"Invalid seat ID format: {seat_id}. Use format like 'A1', 'B2', etc."})
         
-        # Get schedule information
-        schedule = get_schedule_by_id(schedule_id)
+        # Load schedule data
+        try:
+            schedules = load_json_from_blob(schedules_file)
+        except Exception as e:
+            return json.dumps({"error": "Failed to load schedule data."})
+        
+        # Find the schedule
+        schedule = None
+        for s in schedules:
+            if s["schedule_id"] == schedule_id:
+                schedule = s
+                break
+        
         if not schedule:
             return json.dumps({"error": "Schedule not found."})
         
-        # Get movie information
-        movie = get_movie_by_id(schedule["movie_id"])
+        # Load movie data
+        try:
+            movies = load_json_from_blob(movies_file)
+        except Exception as e:
+            return json.dumps({"error": "Failed to load movie data."})
+        
+        # Find the movie
+        movie = None
+        for m in movies:
+            if m["movie_id"] == schedule["movie_id"]:
+                movie = m
+                break
+        
         if not movie:
             return json.dumps({"error": "Movie not found."})
         
+        # Load seat availability data
+        try:
+            seat_data = load_json_from_blob(seat_file)
+        except Exception as e:
+            return json.dumps({"error": "Failed to load seat availability data."})
+        
+        # Find seat data for this schedule
+        seat_info = None
+        seat_info_index = -1
+        for i, s in enumerate(seat_data):
+            if s["schedule_id"] == schedule_id:
+                seat_info = s
+                seat_info_index = i
+                break
+        
+        if not seat_info:
+            return json.dumps({"error": "Seat data not available."})
+        
         # Check seat availability
-        seats_available, error_message = check_seat_availability(schedule_id, seat_ids)
-        if not seats_available:
-            return json.dumps({"error": error_message})
+        available_seats = set()
+        for row in seat_info["available_seats"]:
+            for seat_num in row["available_numbers"]:
+                available_seats.add(f"{row['row']}{seat_num}")
+        
+        # Check if all requested seats are available
+        for seat_id in seat_ids:
+            if seat_id not in available_seats:
+                return json.dumps({"error": f"Seat {seat_id} is already occupied."})
+        
+        # Update seat availability
+        seats_to_move = {}
+        for seat_id in seat_ids:
+            row = seat_id[0]
+            number = int(seat_id[1:])
+            if row not in seats_to_move:
+                seats_to_move[row] = []
+            seats_to_move[row].append(number)
+        
+        # Update available_seats and occupied_seats
+        for row_data in seat_info["available_seats"]:
+            row = row_data["row"]
+            if row in seats_to_move:
+                # Remove seats from available
+                row_data["available_numbers"] = [
+                    num for num in row_data["available_numbers"] 
+                    if num not in seats_to_move[row]
+                ]
+        
+        for row_data in seat_info["occupied_seats"]:
+            row = row_data["row"]
+            if row in seats_to_move:
+                # Add seats to occupied
+                row_data["occupied_numbers"].extend(seats_to_move[row])
+                row_data["occupied_numbers"] = sorted(row_data["occupied_numbers"])
         
         # Generate reservation data
         reservation_id = generate_reservation_id()
@@ -676,14 +679,28 @@ def reserve_seats(context) -> str:
             "status": "confirmed"
         }
         
-        # Update seat availability (Transaction start)
-        if not update_seat_availability(schedule_id, seat_ids):
-            return json.dumps({"error": "Failed to update seat availability."})
+        # Load existing reservations and append new one
+        try:
+            existing_reservations = load_jsonl_from_blob(reservations_file)
+        except Exception as e:
+            # If file doesn't exist, start with empty list
+            existing_reservations = []
         
-        # Save reservation data
-        if not save_reservation_data(reservation_data):
-            # Rollback: This is simplified - in production, implement proper rollback
+        existing_reservations.append(reservation_data)
+        
+        # Save updated reservations as JSONL
+        try:
+            reservation_lines = [json.dumps(reservation, ensure_ascii=False) for reservation in existing_reservations]
+            reservation_content = '\n'.join(reservation_lines) + '\n'
+            reservation_output.set(reservation_content)
+        except Exception as e:
             return json.dumps({"error": "Failed to save reservation data."})
+        
+        # Save updated seat data
+        try:
+            save_json_to_blob(seat_data, seat_output)
+        except Exception as e:
+            return json.dumps({"error": "Failed to update seat availability."})
         
         # Generate response
         response = {
@@ -712,25 +729,6 @@ def reserve_seats(context) -> str:
         return json.dumps({"error": "Internal server error."})
 
 
-# Utility function to get reservation by ID
-def get_reservation_by_id(reservation_id: str) -> dict:
-    """Get reservation data by reservation ID."""
-    try:
-        if not os.path.exists(_RESERVATIONS_JSONL):
-            return None
-        
-        with open(_RESERVATIONS_JSONL, 'r', encoding='utf-8') as f:
-            for line in f:
-                if line.strip():
-                    reservation = json.loads(line.strip())
-                    if reservation.get("reservation_id") == reservation_id:
-                        return reservation
-        return None
-    except Exception as e:
-        logging.error(f"Failed to get reservation by ID: {e}")
-        return None
-
-
 # Define tool properties for get_reservation_details
 tool_properties_get_reservation_details = [
     ToolProperty("reservation_id", "string", "Reservation ID"),
@@ -745,11 +743,18 @@ tool_properties_get_reservation_details_json = json.dumps([prop.to_dict() for pr
     description="Get detailed information for a reservation by reservation ID.",
     toolProperties=tool_properties_get_reservation_details_json,
 )
-def get_reservation_details(context) -> str:
+@app.generic_input_binding(arg_name="movies_file", type="blob", connection="AzureWebJobsStorage", path=_MOVIES_BLOB_PATH)
+@app.generic_input_binding(arg_name="schedules_file", type="blob", connection="AzureWebJobsStorage", path=_SCHEDULES_BLOB_PATH)
+@app.generic_input_binding(arg_name="reservations_file", type="blob", connection="AzureWebJobsStorage", path=_RESERVATIONS_BLOB_PATH)
+def get_reservation_details(movies_file: func.InputStream, schedules_file: func.InputStream, 
+                           reservations_file: func.InputStream, context) -> str:
     """
     Get detailed information for a reservation by reservation ID.
 
     Args:
+        movies_file: The movies blob input stream.
+        schedules_file: The schedules blob input stream.
+        reservations_file: The reservations blob input stream.
         context: The trigger context containing the input arguments.
 
     Returns:
@@ -767,21 +772,54 @@ def get_reservation_details(context) -> str:
             return json.dumps({"error": "reservation_id is required."})
         
         # Validate string length
-        if len(reservation_id) > 20:
-            return json.dumps({"error": "Reservation ID too long. Maximum 20 characters."})
+        if len(reservation_id) > 30:
+            return json.dumps({"error": "Reservation ID too long. Maximum 30 characters."})
         
-        # Get reservation data
-        reservation = get_reservation_by_id(reservation_id)
+        # Load reservation data
+        try:
+            reservations = load_jsonl_from_blob(reservations_file)
+        except Exception as e:
+            return json.dumps({"error": "Failed to load reservation data."})
+        
+        # Find the reservation
+        reservation = None
+        for r in reservations:
+            if r.get("reservation_id") == reservation_id:
+                reservation = r
+                break
+        
         if not reservation:
             return json.dumps({"error": "Reservation not found."})
         
-        # Get schedule information
-        schedule = get_schedule_by_id(reservation["schedule_id"])
+        # Load schedule data
+        try:
+            schedules = load_json_from_blob(schedules_file)
+        except Exception as e:
+            return json.dumps({"error": "Failed to load schedule data."})
+        
+        # Find the schedule
+        schedule = None
+        for s in schedules:
+            if s["schedule_id"] == reservation["schedule_id"]:
+                schedule = s
+                break
+        
         if not schedule:
             return json.dumps({"error": "Schedule not found."})
         
-        # Get movie information
-        movie = get_movie_by_id(schedule["movie_id"])
+        # Load movie data
+        try:
+            movies = load_json_from_blob(movies_file)
+        except Exception as e:
+            return json.dumps({"error": "Failed to load movie data."})
+        
+        # Find the movie
+        movie = None
+        for m in movies:
+            if m["movie_id"] == schedule["movie_id"]:
+                movie = m
+                break
+        
         if not movie:
             return json.dumps({"error": "Movie not found."})
         

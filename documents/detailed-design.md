@@ -5,29 +5,27 @@
 各機能の処理フロー、データアクセス方法、バリデーション、エラーハンドリングを定義する。
 
 ## 2. 前提条件
-- データソース: Azure Filesのmovie-agent-data配下のJSONファイル
-- 予約データ保存: Azure Filesのmovie-agent-data/reservations.jsonl（JSON Lines形式）
+- データソース: Azure Blobコンテナmovies配下のJSONファイル
+- 予約データ保存: Azure Blobコンテナmovies/reservations.jsonl（JSON Lines形式）
 - リクエストパラメータには最低限のバリデーションを実装
 - エラー時は適切なエラーメッセージと共にHTTP相当のステータスを返却
 
 ## 3. 共通仕様
 
-### 3.1 起動時処理
-- src/data配下のjsonファイル群をAzure Filesのmovie-agent-dataファイル共有にアップロードする（既存ファイルがある場合は上書きする）
-
-### 3.2 データファイル
+### 3.1 データファイル
+いずれもmoviesコンテナ内に存在。
 - movies.json: 映画マスタデータ
 - schedules.json: 上映スケジュールデータ
 - seat_availability.json: 座席状況データ
 - reservations.jsonl: 予約データ（追記形式）
 
-### 3.3 共通バリデーション
+### 3.2 共通バリデーション
 - 日付形式: YYYY-MM-DD（正規表現: ^\d{4}-\d{2}-\d{2}$）
 - 時刻形式: HH:MM（正規表現: ^\d{2}:\d{2}$）
 - 必須パラメータの存在チェック
 - 文字列長制限チェック
 
-### 3.4 エラーハンドリング
+### 3.3 エラーハンドリング
 - データファイル読み込みエラー
 - パラメータバリデーションエラー
 - データ不整合エラー
@@ -238,7 +236,8 @@
 - 過度に長い文字列の制限
 
 ### 7.2 ファイルアクセス制御
-- src/dataおよびAzure Filesのmovie-agent-data配下のみアクセス許可
+- src/dataおよびAzure Blobのmoviesコンテナ配下のみアクセス許可
+- ストレージアカウントに対してはManaged ID認証に基づくアクセスを行う
 - 設定ファイルや実行ファイルへのアクセス禁止
 
 ## 8. ログ・監査
